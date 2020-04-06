@@ -6,7 +6,7 @@ import requests
 #%%
 #multi tenant with my account 
 from azureml.core.authentication import InteractiveLoginAuthentication
-int_auth = InteractiveLoginAuthentication(tenant_id='35069d74-1489-4194-80c7-3a81385ead5b')
+int_auth = InteractiveLoginAuthentication(tenant_id='your_tenant_id')
 ws = Workspace.from_config(auth=int_auth)
 ws.name 
 

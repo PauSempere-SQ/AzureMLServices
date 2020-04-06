@@ -1,25 +1,19 @@
-#%%
 from azureml.core import Workspace, Datastore, Dataset, ScriptRunConfig, ComputeTarget, Experiment
 from azureml.data.datapath import DataPath
 from azureml.train.sklearn import SKLearn
 from azureml.train.estimator import Estimator
 
-#%%
 #multi tenant with my account 
 from azureml.core.authentication import InteractiveLoginAuthentication
 int_auth = InteractiveLoginAuthentication(tenant_id='your_tenant_id')
 ws = Workspace.from_config(auth=int_auth)
-ws.name
+print(ws.name)
 
-#%%
 dataset = Dataset.get_by_name(workspace=ws, name = 'demo_wines_live')
 
-#%%
 #point to compute target
 comp = ComputeTarget(ws, name = 'compute-instance-demo')
-comp 
 
-#%%
 #estimator with SKlearn by default + azureml-sdk package
 est = SKLearn(
                 source_directory='./scripts',
@@ -29,7 +23,6 @@ est = SKLearn(
                 pip_packages=['azureml-sdk', 'pyarrow>=0.12.0']
 )
 
-#%%
 exp = Experiment(workspace=ws, name = 'submitted_wine')
 run = exp.submit(est)
 run.wait_for_completion(show_output=True)
@@ -62,5 +55,3 @@ acc = str(round(np.average(cv['test_score']), 3))
 
 #log metrics
 run.log(name = 'accuracy', value = acc)
-
-# %%
